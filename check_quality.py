@@ -14,3 +14,13 @@ conn.close()
 print(f"Loaded {len(table)} rows.\n")
 
 problems_found = 0
+
+# Check for any missing values
+missing = table.isnull().sum()
+missing = missing[missing > 0]
+if len(missing) > 0:
+    print("MISSING VALUES:")
+    print(missing)
+    problems_found += 1
+else:
+    print("No missing values found.")

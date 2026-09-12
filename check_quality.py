@@ -43,3 +43,18 @@ if len(bad_temps) > 0:
 else:
     print("No rows with max temp lower than min temp.")
 
+# Check 4: outlier temperatures (way outside a realistic range)
+outliers = table[(table["max_temp_c"] > 50) | (table["min_temp_c"] < -20)]
+if len(outliers) > 0:
+    print("\nOUTLIER TEMPERATURES (outside -20C to 50C):")
+    print(outliers)
+    problems_found += 1
+else:
+    print("No outlier temperatures found.")
+
+
+print("\n--- SUMMARY ---")
+if problems_found == 0:
+    print("All checks passed. Data looks clean.")
+else:
+    print(f"{problems_found} type(s) of problem found. See details above.")

@@ -15,7 +15,7 @@ print(f"Loaded {len(table)} rows.\n")
 
 problems_found = 0
 
-# Check for any missing values
+# Check 1: missing values
 missing = table.isnull().sum()
 missing = missing[missing > 0]
 if len(missing) > 0:
@@ -24,3 +24,22 @@ if len(missing) > 0:
     problems_found += 1
 else:
     print("No missing values found.")
+
+# Check 2: duplicate rows (same date appearing twice)
+duplicates = table[table.duplicated(subset=["date"], keep=False)]
+if len(duplicates) > 0:
+    print("\nDUPLICATE DATES:")
+    print(duplicates)
+    problems_found += 1
+else:
+    print("No duplicate dates found.")
+
+# Check 3: max temp lower than min temp (physically impossible)
+bad_temps = table[table["max_temp_c"] < table["min_temp_c"]]
+if len(bad_temps) > 0:
+    print("\nROWS WHERE MAX TEMP IS LOWER THAN MIN TEMP (impossible):")
+    print(bad_temps)
+    problems_found += 1
+else:
+    print("No rows with max temp lower than min temp.")
+
